@@ -44,7 +44,7 @@ if __name__ == "__main__":
         "--label_dir",
         type=str,
         help="Directory where labels are stored",
-        default="./labels/label_files",
+        default=None,
     )
     parser.add_argument(
         "--data_dir",
