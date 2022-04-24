@@ -36,7 +36,7 @@ if __name__ == "__main__":
         help="Label in [speech, uniform, shuffle, composite, random, uniform, lowdim, bert, glove]",
     )
     parser.add_argument(
-        "--model", type=str, help="Image encoder in [vgg16, vgg19, resnet110, resnet32]"
+        "--model", type=str, help="Image encoder in [vgg16, vgg19, resnet20, resnet110, resnet32]"
     )
     parser.add_argument("--seed", type=int, help="Manual seed.", required=True)
     parser.add_argument("--level", type=int, default=100, help="Data level.")
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     data_dir = args.data_dir
     model_name = args.model
     seq_seed = args.seed
-    data_level = args.level
+    # data_level = args.level
     base_dir = args.base_dir
     label_dir = args.label_dir
     dataset = args.dataset
@@ -73,6 +73,7 @@ if __name__ == "__main__":
     batch_size = args.batch_size
     epoch_stop = args.epochs
     data_frac = args.data_frac
+    data_level = data_frac
 
     assert dataset in ("s2m", "u2m", "m2u")
 
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     if smoothing > 0:
         label = "category_smooth{}".format(smoothing)
 
-    assert model_name in ("vgg16", "vgg19", "resnet110", "resnet32")
+    assert model_name in ("vgg16", "vgg19", "resnet20", "resnet110", "resnet32")
     if less_data:
         assert data_level < 90
     print(

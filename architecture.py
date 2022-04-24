@@ -13,10 +13,17 @@ class CategoryModel(nn.Module):
             cnn = models.__dict__['vgg16_bn'](num_classes=num_classes)
             self.features = nn.Sequential(*list(cnn.children())[:-1])
             self.fc = nn.Linear(cnn.classifier.in_features, num_classes)
-        if model_name == 'vgg19':
+        elif model_name == 'vgg19':
             cnn = models.__dict__['vgg19_bn'](num_classes=num_classes)
             self.features = nn.Sequential(*list(cnn.children())[:-1])
             self.fc = nn.Linear(cnn.classifier.in_features, num_classes)
+        elif model_name == 'resnet20':
+            cnn = models.__dict__['resnet'](
+                num_classes=num_classes,
+                depth=20,
+                block_name='BasicBlock')
+            self.features = nn.Sequential(*list(cnn.children())[:-1])
+            self.fc = nn.Linear(cnn.fc.in_features, num_classes)
         elif model_name == 'resnet110':
             cnn = models.__dict__['resnet'](
                 num_classes=num_classes,
@@ -57,13 +64,23 @@ class HighDimensionalModel(nn.Module):
                 nn.BatchNorm1d(cnn.classifier.in_features),
                 nn.LeakyReLU(),
                 nn.Linear(cnn.classifier.in_features, 64))
-        if model_name == 'vgg19':
+        elif model_name == 'vgg19':
             cnn = models.__dict__['vgg19_bn'](num_classes=num_classes)
             self.features = nn.Sequential(*list(cnn.children())[:-1])
             self.fc = nn.Sequential(
                 nn.BatchNorm1d(cnn.classifier.in_features),
                 nn.LeakyReLU(),
                 nn.Linear(cnn.classifier.in_features, 64))
+        elif model_name == 'resnet20':
+            cnn = models.__dict__['resnet'](
+                num_classes=num_classes,
+                depth=20,
+                block_name='BasicBlock')
+            self.features = nn.Sequential(*list(cnn.children())[:-1])
+            self.fc = nn.Sequential(
+                nn.BatchNorm1d(cnn.fc.in_features),
+                nn.LeakyReLU(),
+                nn.Linear(cnn.fc.in_features, 64))
         elif model_name == 'resnet110':
             cnn = models.__dict__['resnet'](
                 num_classes=num_classes,
