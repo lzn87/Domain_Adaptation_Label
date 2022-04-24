@@ -66,7 +66,7 @@ def digit_load_test(batch_size, dset, label_dir=None):
                     transforms.Resize(32),
                     transforms.Lambda(lambda x: x.convert("RGB")),
                     transforms.ToTensor(),
-                    transforms.Normalize((0.5,), (0.5,))
+                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
                 ]))
     test_target = dataset_wrapper(test_target, label_dir=label_dir, return_highdim=False)
     return DataLoader(test_target, batch_size=train_bs*2, shuffle=False, 
