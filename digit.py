@@ -76,47 +76,53 @@ def digit_load(batch_size, dset, label_dir=None, data_frac=1.0):
     elif dset == 'u2m':
         train_source = usps.USPS('./data/usps/', train=True, download=True,
                 transform=transforms.Compose([
-                    transforms.RandomCrop(28, padding=4),
+                    transforms.RandomCrop(32, padding=4),
                     transforms.RandomRotation(10),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
         test_source = usps.USPS('./data/usps/', train=False, download=True,
                 transform=transforms.Compose([
-                    transforms.RandomCrop(28, padding=4),
+                    transforms.RandomCrop(32, padding=4),
                     transforms.RandomRotation(10),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))    
         train_target = mnist.MNIST('./data/mnist/', train=True, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))    
         test_target = mnist.MNIST('./data/mnist/', train=False, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
     elif dset == 'm2u':
         train_source = mnist.MNIST('./data/mnist/', train=True, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
         test_source = mnist.MNIST('./data/mnist/', train=False, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
 
         train_target = usps.USPS('./data/usps/', train=True, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
         test_target = usps.USPS('./data/usps/', train=False, download=True,
                 transform=transforms.Compose([
+                    transforms.Resize(32),
                     transforms.ToTensor(),
                     transforms.Normalize((0.5,), (0.5,))
                 ]))
