@@ -9,6 +9,10 @@ class CategoryModel(nn.Module):
         super(CategoryModel, self).__init__()
         
         # CNN
+        if model_name == 'vgg16':
+            cnn = models.__dict__['vgg16_bn'](num_classes=num_classes)
+            self.features = nn.Sequential(*list(cnn.children())[:-1])
+            self.fc = nn.Linear(cnn.classifier.in_features, num_classes)
         if model_name == 'vgg19':
             cnn = models.__dict__['vgg19_bn'](num_classes=num_classes)
             self.features = nn.Sequential(*list(cnn.children())[:-1])
@@ -46,6 +50,13 @@ class HighDimensionalModel(nn.Module):
         super(HighDimensionalModel, self).__init__()
         
         # CNN
+        if model_name == 'vgg16':
+            cnn = models.__dict__['vgg16_bn'](num_classes=num_classes)
+            self.features = nn.Sequential(*list(cnn.children())[:-1])
+            self.fc = nn.Sequential(
+                nn.BatchNorm1d(cnn.classifier.in_features),
+                nn.LeakyReLU(),
+                nn.Linear(cnn.classifier.in_features, 64))
         if model_name == 'vgg19':
             cnn = models.__dict__['vgg19_bn'](num_classes=num_classes)
             self.features = nn.Sequential(*list(cnn.children())[:-1])
