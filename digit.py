@@ -43,6 +43,35 @@ class dataset_wrapper(Dataset):
     def __len__(self):
         return len(self.indices)
 
+def digit_load_test(batch_size, dset, label_dir=None):
+    train_bs = batch_size
+    if dset == "m":
+        test_target = mnist.MNIST('./data/mnist/', train=False, download=True,
+                transform=transforms.Compose([
+                    transforms.Resize(32),
+                    transforms.Lambda(lambda x: x.convert("RGB")),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+                ]))
+    elif dset == "s":
+        test_target = svhn.SVHN('./data/svhn/', split='test', download=True,
+                transform=transforms.Compose([
+                    transforms.Resize(32),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+                ]))  
+    elif dset == "u":
+        test_target = usps.USPS('./data/usps/', train=False, download=True,
+                transform=transforms.Compose([
+                    transforms.Resize(32),
+                    transforms.Lambda(lambda x: x.convert("RGB")),
+                    transforms.ToTensor(),
+                    transforms.Normalize((0.5,), (0.5,))
+                ]))
+    test_target = dataset_wrapper(test_target, label_dir=label_dir, return_highdim=False)
+    return DataLoader(test_target, batch_size=train_bs*2, shuffle=False, 
+        num_workers=2, drop_last=False)
+
 def digit_load(batch_size, dset, label_dir=None, data_frac=1.0): 
     train_bs = batch_size
     dset = dset

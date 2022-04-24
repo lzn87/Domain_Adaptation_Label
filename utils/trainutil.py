@@ -269,6 +269,22 @@ def test_category(model, testloader, criterion, device):
             batch_count += 1
     return test_loss / batch_count, correct / test_total
 
+def test_category_no_loss(model, testloader, device):
+    model.eval()
+    correct = 0
+    test_total = 0
+    test_loss = 0
+    batch_count = 0
+    with torch.no_grad():
+        for batch_idx, (inputs, targets) in enumerate(testloader):
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            _, predicted = outputs.max(1)
+            test_total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+            batch_count += 1
+    return correct / test_total
+
 
 def test_lowdim(model, testloader, criterion, device):
     model.eval()
