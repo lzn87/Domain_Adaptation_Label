@@ -38,3 +38,7 @@ python train.py --model $MODEL$ \
 	  	--label_dir labels/digits/digits_speech.npy \
 	  	--data_frac 0.1
 ```
+
+## Evaluation
+Afer training is completed, the best model weight will be evaluated under target distribution. The results will be saved at
+```outputs/log/```
